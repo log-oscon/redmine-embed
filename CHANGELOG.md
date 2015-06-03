@@ -1,8 +1,8 @@
-# Change Log
+# Changelog #
 
-## April 12, 2015
+## 1.0 ##
+* A change since the previous version.
+* Another change.
 
-* Fork of the WordPress Plugin Boilerplate.
-* Namespaces and autoloader (PSR-4) support.
-* Composer dependency support.
-* `Public` changed to `Frontend` due to it being a PHP keyword.
+## 0.5 ##
+* List versions from most recent at top to oldest at bottom.

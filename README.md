@@ -1,125 +1,101 @@
-# WordPress Plugin Boilerplate
+# Plugin Name #
+**Contributors:** (this should be a list of wordpress.org userid's)
+**Donate link:** http://example.com/
+**Tags:** comments, spam
+**Requires at least:** 3.0.1
+**Tested up to:** 3.4
+**Stable tag:** 4.3
+**License:** GPLv2 or later
+**License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
-A standardized, organized, object-oriented foundation for building high-quality WordPress Plugins
+Here is a short description of the plugin.  This should be no more than 150 characters.  No markup here.
 
-This is a fork of the original WordPress Plugin Boilerplate project, with added namespace and autoloader support.
+## Description ##
 
-## Features
+This is the long description.  No limit, and you can use Markdown (as well as in the following sections).
 
-* The Boilerplate is based on the [Plugin API](http://codex.wordpress.org/Plugin_API), [Coding Standards](http://codex.wordpress.org/WordPress_Coding_Standards), and [Documentation Standards](http://make.wordpress.org/core/handbook/inline-documentation-standards/php-documentation-standards/).
-* All classes, functions, and variables are documented so that you know what you need to be changed.
-* The Boilerplate uses a strict file organization scheme that correspond both to the WordPress Plugin Repository structure, and that make it easy to organize the files that compose the plugin.
-* The project includes a `.pot` file as a starting point for internationalization.
+For backwards compatibility, if this section is missing, the full length of the short description will be used, and
+Markdown parsed.
 
-## Installation
+A few notes about the sections above:
 
-The Boilerplate can be installed in one of two ways both of which are documented below.
+*   "Contributors" is a comma separated list of wp.org/wp-plugins.org usernames
+*   "Tags" is a comma separated list of tags that apply to the plugin
+*   "Requires at least" is the lowest version that the plugin will work on
+*   "Tested up to" is the highest version that you've *successfully used to test the plugin*. Note that it might work on
+higher versions... this is just the highest one you've verified.
+*   Stable tag should indicate the Subversion "tag" of the latest stable version, or "trunk," if you use `/trunk/` for
+stable.
 
-### Copying a Directory
+    Note that the `readme.txt` of the stable tag is the one that is considered the defining one for the plugin, so
+if the `/trunk/readme.txt` file says that the stable tag is `4.3`, then it is `/tags/4.3/readme.txt` that'll be used
+for displaying information about the plugin.  In this situation, the only thing considered from the trunk `readme.txt`
+is the stable tag pointer.  Thus, if you develop in trunk, you can update the trunk `readme.txt` to reflect changes in
+your in-development version, without having that information incorrectly disclosed about the current stable version
+that lacks those changes -- as long as the trunk's `readme.txt` points to the correct stable tag.
 
-1. Clone the directory into your `wp-content/plugins` directory.
-2. Change into the cloned directory and execute `composer install`.
-3. In the WordPress dashboard, navigate to the *Plugins* page and locate the menu item that reads “The WordPress Plugin Boilerplate.”
-4. Click on *Activate.*
+    If no stable tag is provided, it is assumed that trunk is stable, but you should specify "trunk" if that's where
+you put the stable version, in order to eliminate any doubt.
 
-### Creating a Symbolic Link
+## Installation ##
 
-#### On Linux or OS X
+This section describes how to install the plugin and get it working.
 
-1. Copy the `WordPress-Plugin-Boilerplate` directory into your `wp-content/plugins` directory.
-2. Create a symbolic link between the `trunk` directory and the plugin. For example: `ln -s plugin-name/trunk /path/to/wordpress/wp-content/plugins/plugin-name`
-3. In the WordPress dashboard, navigation to the *Plugins* page
-Locate the menu item that reads “The WordPress Plugin Boilerplate.”
-4. Click on *Activate.*
+e.g.
 
-#### On Windows
+1. Upload `plugin-name.php` to the `/wp-content/plugins/` directory
+1. Activate the plugin through the 'Plugins' menu in WordPress
+1. Place `<?php do_action('plugin_name_hook'); ?>` in your templates
 
-1. Copy the `WordPress-Plugin-Boilerplate` directory into your `wp-content/plugins` directory.
-2. Create a symbolic link between the `trunk` directory and the plugin. For example: `mklink /J path\to\wp-content\plugins \path\to\WordPress-Plugin-Boilerplate\trunk\plugin-name`
-3. In the WordPress dashboard, navigation to the *Plugins* page
-Locate the menu item that reads “The WordPress Plugin Boilerplate.”
-4. Click on *Activate.*
 
-Note that this will activate the source code of the Boilerplate, but because the Boilerplate has no real functionality so no menu  items, meta boxes, or custom post types will be added.
+## Screenshots ##
 
-Examples are slated to be added to the [Boilerplate’s website](http://wppb.io) as the site continues to grow.
+1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
+![1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from](https://ps.w.org/plugin-name/assets/screenshot-1.jpg)
 
-## Recommended Tools
+the /assets directory or the directory that contains the stable readme.txt (tags or trunk). Screenshots in the /assets
+directory take precedence. For example, `/assets/screenshot-1.png` would win over `/tags/4.3/screenshot-1.png`
+(or jpg, jpeg, gif).
+2. This is the second screen shot
+![2. This is the second screen shot](https://ps.w.org/plugin-name/assets/screenshot-2.png)
 
-### i18n Tools
 
-The WordPress Plugin Boilerplate uses a variable to store the text domain used when internationalizing strings throughout the Boilerplate. To take advantage of this method, there are tools that are recommended for providing correct, translatable files:
 
-* [Poedit](http://www.poedit.net/)
-* [makepot](http://i18n.svn.wordpress.org/tools/trunk/)
-* [i18n](https://github.com/grappler/i18n)
+## Upgrade Notice ##
 
-Any of the above tools should provide you with the proper tooling to internationalize the plugin.
+### 1.0 ###
+Upgrade notices describe the reason a user should upgrade.  No more than 300 characters.
 
-## License
+### 0.5 ###
+This version fixes a security related bug.  Upgrade immediately.
 
-The WordPress Plugin Boilerplate is licensed under the GPL v2 or later.
+## Arbitrary section ##
 
-> This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License, version 2, as published by the Free Software Foundation.
+You may provide arbitrary sections, in the same format as the ones above.  This may be of use for extremely complicated
+plugins where more information needs to be conveyed that doesn't fit into the categories of "description" or
+"installation."  Arbitrary sections will be shown below the built-in sections outlined above.
 
-> This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+## A brief Markdown Example ##
 
-> You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+Ordered list:
 
-A copy of the license is included in the root of the plugin’s directory. The file is named `LICENSE`.
+1. Some feature
+1. Another feature
+1. Something else about the plugin
 
-## Important Notes
+Unordered list:
 
-### Licensing
+* something
+* something else
+* third thing
 
-The WordPress Plugin Boilerplate is licensed under the GPL v2 or later; however, if you opt to use third-party code that is not compatible with v2, then you may need to switch to using code that is GPL v3 compatible.
+Here's a link to [WordPress](http://wordpress.org/ "Your favorite software") and one to [Markdown's Syntax Documentation][markdown syntax].
+Titles are optional, naturally.
 
-For reference, [here's a discussion](http://make.wordpress.org/themes/2013/03/04/licensing-note-apache-and-gpl/) that covers the Apache 2.0 License used by [Bootstrap](http://twitter.github.io/bootstrap/).
+[markdown syntax]: http://daringfireball.net/projects/markdown/syntax
+            "Markdown is what the parser uses to process much of the readme file"
 
-### Includes
+Markdown uses email style notation for blockquotes and I've been told:
+> Asterisks for *emphasis*. Double it up  for **strong**.
 
-Note that if you include your own classes, or third-party libraries, there are three locations in which said files may go:
-
-* `lib/Common` is where functionality shared between the dashboard and the public-facing parts of the side reside.
-* `lib/Admin` is for all dashboard-specific functionality.
-* `lib/Frontend` is for all public-facing functionality.
-
-The example code provided shows how to register your hooks with the `Loader` class. More information will be provided in the upcoming documentation on the website.
-
-### Assets
-
-The `assets` directory contains three files.
-
-1. `banner-772x250.png` is used to represent the plugin’s header image.
-2. `icon-256x256.png` is a used to represent the plugin’s icon image (which is new as of WordPress 4.0).
-3. `screenshot-1.png` is used to represent a single screenshot of the plugin that corresponds to the “Screenshots” heading in your plugin `README.txt`.
-
-The WordPress Plugin Repository directory structure contains three directories:
-
-1. `assets`
-2. `branches`
-3. `trunk`
-
-The Boilerplate offers support for `assets` and `trunk` as `branches` is something that isn’t often used and, when it is, is done so under advanced circumstances.
-
-When committing code to the WordPress Plugin Repository, all of the banner, icon, and screenshot should be placed in the `assets` directory of the Repository, and the core code should be placed in the `trunk` directory.
-
-### What About Other Features?
-
-The previous version of the WordPress Plugin Boilerplate included support for a number of different projects such as the [GitHub Updater](https://github.com/afragen/github-updater).
-
-These tools are not part of the core of this Boilerplate, as I see them as being additions, forks, or other contributions to the Boilerplate.
-
-The same is true of using tools like Grunt, Composer, etc. These are all fantastic tools, but not everyone uses them. In order to  keep the core Boilerplate as light as possible, this feature have been removed and will be introduced in other editions, and will be listed and maintained on the project homepage
-
-# Credits
-
-The WordPress Plugin Boilerplate was started in 2011 by [Tom McFarlin](http://twitter.com/tommcfarlin/) and has since included a number of great contributions.
-
-The current version of the Boilerplate was developed in conjunction with [Josh Eaton](https://twitter.com/jjeaton), [Ulrich Pogson](https://twitter.com/grapplerulrich), and [Brad Vincent](https://twitter.com/themergency).
-
-The homepage is based on a design as provided by [HTML5Up](http://html5up.net), the Boilerplate logo was designed by  Rob McCaskill of [BungaWeb](http://bungaweb.com), and the site `favicon` was created by [Mickey Kay](https://twitter.com/McGuive7).
-
-## Documentation, FAQs, and More
-
-Because this version is a major rewrite of the core plugin, we’re working to create an entire site around the Boilerplate. If you’re interested, please [let me know](http://tommcfarlin.com/contact) and we’ll see what we can do.
+`<?php code(); // goes in backticks ?>`
