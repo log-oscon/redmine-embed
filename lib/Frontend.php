@@ -185,9 +185,6 @@ class Frontend {
 
 		$data->issue->pending_ratio = (int) 100 - $data->issue->done_ratio;
 
-$data->issue->done_ratio = 30;
-$data->issue->pending_ratio = 70;
-
 		echo $this->template->render( 'issue', $data );
 	}
 
