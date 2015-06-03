@@ -19,7 +19,7 @@
     ],
     "support": {
         "issues": "https://github.com/log-oscon/redmine-embed/issues",
-        "source": "https://github.com/log-oscon/redmine-embed/issues"
+        "source": "https://github.com/log-oscon/redmine-embed"
     },
     "autoload": {
         "psr-4": {
@@ -34,7 +34,9 @@
     "require": {
         "php": ">=5.3.4",
         "composer/installers": "~1.0",
-        "markjaquith/wp-tlc-transients": "^1.0"
+        "markjaquith/wp-tlc-transients": "^1.0",
+        "xamin/handlebars.php": "^0.10.0",
+        "netcarver/textile": "^3.5.0"
     },
     "suggest": {
     },

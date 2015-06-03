@@ -39,25 +39,34 @@ class Plugin {
 	 * @access   protected
 	 * @var      PluginName_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
-	protected $loader;
+	private $loader;
 
 	/**
 	 * The unique identifier of this plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   protected
+	 * @access   private
 	 * @var      string    $pluginname    The string used to uniquely identify this plugin.
 	 */
-	protected $pluginname = 'redmine-embed';
+	private $pluginname = 'redmine-embed';
 
 	/**
 	 * The current version of the plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   protected
+	 * @access   private
 	 * @var      string    $version    The current version of the plugin.
 	 */
-	protected $version = '1.0.0';
+	private $version = '1.0.0';
+
+	/**
+	 * Plugin options.
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    array
+	 */
+	private $options = array();
 
 	/**
 	 * Define the core functionality of the plugin.
@@ -97,11 +106,10 @@ class Plugin {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new Admin( $this );
+		$admin = new Admin( $this );
 
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
-
+		$this->loader->add_action( 'admin_enqueue_scripts', $admin, 'enqueue_styles' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $admin, 'enqueue_scripts' );
 	}
 
 	/**
@@ -113,11 +121,12 @@ class Plugin {
 	 */
 	private function define_frontend_hooks() {
 
-		$plugin_frontend = new Frontend( $this );
+		$frontend = new Frontend( $this );
 
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_frontend, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_frontend, 'enqueue_scripts' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $frontend, 'enqueue_styles' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $frontend, 'enqueue_scripts' );
 
+		$this->loader->add_action( 'init', $frontend, 'register_embed_handler' );
 	}
 
 	/**
@@ -164,6 +173,31 @@ class Plugin {
 	 */
 	public function get_version() {
 		return $this->version;
+	}
+
+	/**
+	 * Get a plugin option by name.
+	 * 
+	 * @param  string $name  Option name.
+	 * @param  mixed  $default Option default if not set.
+	 * @return mixed           Option value.
+	 */
+	public function get_option( $name, $default = null ) {
+		$options = \get_option( $this->pluginname, array() );
+
+		return isset( $options[ $name ] ) ? $options[ $name ] : $default;
+	}
+
+	/**
+	 * Set a plugin option.
+	 * 
+	 * @param string $name   Option name.
+	 * @param mixed  $value  Option value.
+	 */
+	public function set_option( $name, $value ) {
+		$options = \get_option( $this->pluginname, array() );
+		$options[ $name ] = $value;
+		$result = \update_option( $this->pluginname, $options, true );
 	}
 
 }

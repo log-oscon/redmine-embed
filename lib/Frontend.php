@@ -34,6 +34,33 @@ class Frontend {
 	private $plugin;
 
 	/**
+	 * Redmine.
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    Redmine API client object.
+	 */
+	private $api;
+
+	/**
+	 * Template engine.
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    \Handlebars
+	 */
+	private $template;
+
+	/**
+	 * Textile parser.
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    \Netcarver\Textile
+	 */
+	private $textile;
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since 1.0.0
@@ -41,7 +68,26 @@ class Frontend {
 	 * @param Plugin $plugin This plugin's instance.
 	 */
 	public function __construct( Plugin $plugin ) {
-		$this->plugin = $plugin;
+		$this->plugin  = $plugin;
+	}
+
+	/**
+	 * Initialize dependencies.
+	 */
+	private function initialize() {
+		if ( ! isset( $this->redmine ) ) {
+			$this->redmine = new Redmine\API( $this->plugin );			
+		}
+
+		if ( ! isset( $this->markup ) ) {
+			$this->markup = new \Netcarver\Textile\Parser();
+		}
+
+		if ( ! isset( $this->template ) ) {
+			$this->template = new \Handlebars\Handlebars( array(
+			    'loader'  => new \Handlebars\Loader\FilesystemLoader( dirname( __DIR__ ) . '/templates/' ),
+			) );
+		}
 	}
 
 	/**
@@ -96,6 +142,62 @@ class Frontend {
 			$this->plugin->get_version(),
 			false );
 
+	}
+
+	/**
+	 * Register URL embed handler.
+	 */
+	public function register_embed_handler () {
+		$root_url = \trailingslashit( $this->plugin->get_option( 'root_url', false ) );
+
+		if ( empty( $root_url ) ) {
+			return false;
+		}
+
+		\wp_embed_register_handler( 'redmine', '#' . preg_quote( $root_url ) . '.*#i', array( $this, 'embed_handler' ), true );
+	}
+
+	/**
+	 * Handle Redmine URLs in content.
+	 * 
+	 * @param  [type] $matches [description]
+	 * @param  [type] $attr    [description]
+	 * @param  [type] $url     [description]
+	 * @param  [type] $rawattr [description]
+	 * @return [type]          [description]
+	 */
+	public function embed_handler ( $matches, $attr, $url, $rawattr ) {
+		$this->initialize();
+
+		$resource = $this->redmine->get_resource_url( $url, 'json' );
+		$response = $this->redmine->get( $resource, array(), 3600 );
+		$data     = json_decode( $response );
+
+		$data->options = (object) array(
+			'base_url' => \trailingslashit( $this->plugin->get_option( 'root_url' ) ),
+		);
+
+		$data->issue->rendered = (object) array(
+			'description' => $this->markup->textileRestricted( $data->issue->description ),
+			'created_on'  => $this->get_formatted_date( strtotime( $data->issue->created_on ) ),
+			'updated_on'  => $this->get_formatted_date( strtotime( $data->issue->updated_on ) ),
+		);
+
+		$data->issue->pending_ratio = (int) 100 - $data->issue->done_ratio;
+
+$data->issue->done_ratio = 30;
+$data->issue->pending_ratio = 70;
+
+		echo $this->template->render( 'issue', $data );
+	}
+
+	/**
+	 * Format date.
+	 * @param  int    $timestamp Timestamp.
+	 * @return string            Formatted date based on the timestamp.
+	 */
+	private function get_formatted_date( $timestamp = 0 ) {
+		return strftime( '%c', $timestamp );
 	}
 
 }

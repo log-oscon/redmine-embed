@@ -1,0 +1,59 @@
+<div class="redmine-issue">
+    <h2><a href="{{options.base_url}}issues/{{issue.id}}">Task #{{issue.id}}</a></h2>
+    <div class="issue tracker-{{issue.tracker.id}} status-{{issue.status.id}} priority-{{issue.priority.id}} details">
+        <div class="subject">
+            <div><h3>{{issue.subject}}</h3></div>
+        </div>
+        <p class="author">
+            Added by <a class="user active" href="{{options.base_url}}users/{{issue.author.id}}">{{issue.author.name}}</a> on {{issue.rendered.created_on}}.
+            Updated on {{issue.rendered.updated_on}}.
+        </p>
+        <table class="attributes">
+            <tr>
+                <th class="status">Status:</th>
+                <td class="status">{{issue.status.name}}</td>
+                <th class="start-date">Start date:</th>
+                <td class="start-date">{{issue.start_date}}</td>
+            </tr>
+            <tr>
+                <th class="priority">Priority:</th>
+                <td class="priority">{{issue.priority.name}}</td>
+                <th class="due-date">Due date:</th>
+                <td class="due-date">{{issue.due_date}}</td>
+            </tr>
+            <tr>
+                <th class="assigned-to">Assignee:</th>
+                <td class="assigned-to"><a class="user" href="{{options.base_url}}users/{{issue.assigned_to.id}}">{{issue.assigned_to.name}}</a></td>
+                <th class="done-ratio">% Done:</th>
+                <td class="done-ratio">
+                    <table class="progress-bar progress-{{issue.done_ratio}}">
+                        <tr>
+                            <td style="width: {{issue.done_ratio}}%;" class="closed"></td>
+                            <td style="width: {{issue.pending_ratio}}%;" class="todo"></td>
+                        </tr>
+                    </table>
+                    <p class="percent">{{issue.done_ratio}}%</p>
+                </td>
+            </tr>
+            <tr>
+                <th class="category">Category:</th>
+                <td class="category">{{issue.category.name}}</td>
+                <th class="spent-time">Spent time:</th>
+                <td class="spent-time"><a href="{{options.base_url}}issues/107419/time_entries">{{issue.spent_hours}} hour</a></td>
+            </tr>
+            <tr>
+                <th class="fixed-version">Target version:</th>
+                <td class="fixed-version"><a href="{{options.base_url}}versions/{{issue.fixed_version.id}}">{{issue.fixed_version.name}}</a></td>
+                <th></th>
+                <td></td>
+            </tr>
+        </table>
+        <hr />
+        <div class="description">
+            <p><strong>Description</strong></p>
+            <div class="wiki">
+                {{{issue.rendered.description}}}
+            </div>
+        </div>
+    </div>
+</div>
