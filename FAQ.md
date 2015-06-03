@@ -1,9 +1,5 @@
 # Frequently Asked Questions #
 
-## A question that someone might have ##
+## Where can I find my Redmine REST API key? ##
 
-An answer to that question.
-
-## What about foo bar? ##
-
-Answer to foo bar dilemma.
+Find the Redmine REST API on your account page (`http://<my redmine install>/my/account`), on the right-hand pane of the default layout.
