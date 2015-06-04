@@ -1,66 +1,50 @@
+.redmine-error {
+  background: #f2dede;
+  border: 1px solid red;
+  margin: 20px 0 25px;
+  padding: 16px;
+}
+
 .redmine-issue {
-    background: #F3F5F7;
-    border: 1px solid rgba(156, 165, 181, 0.25);
-    color: #6C767F;
-    margin: 20px 0 25px;
-    padding: 16px !important;
+  background: #fcf8e3;
+  border: 1px solid #c9c5b0;
+  color: #333;
+  margin: 20px 0 25px;
+  padding: 16px;
 }
 
 .redmine-issue table {
-    background-color: transparent;
-    border-collapse: collapse;
-    border: 0;
-}
-
-.redmine-issue tr:nth-child(2n) td,
-.redmine-issue tr:nth-child(2n+1) td {
-    background-color: transparent;
-    border: none;
+  background-color: transparent;
+  border-collapse: collapse;
+  border: 0;
 }
 
 .redmine-issue th,
-.redmine-issue td {
-    background-color: transparent;
-    border: none;
-    padding: 2px;
+.redmine-issue td,
+.redmine-issue tr:nth-child(n) td {
+  background-color: transparent;
+  border: none;
+  padding: 2px;
 }
 
-.redmine-issue .attributes {
-    width: 100%;
+.redmine-issue__attributes {
+  width: 100%;
 }
 
-.redmine-issue .attributes th {
-    text-align: left;
-    vertical-align: top;
-    width: 22%;
+.redmine-issue__attributes th {
+  text-align: left;
+  vertical-align: top;
+  width: 22%;
 }
 
-.redmine-issue .attributes td {
-    vertical-align: top;
-    width: 28%;
+.redmine-issue__attributes td {
+  vertical-align: top;
+  width: 28%;
 }
 
-.redmine-issue .progress-bar {
-    background-color: #fafafa;
-    border-collapse: collapse;
-    border-spacing: 0pt;
-    empty-cells: show;
-    float: left;
-    margin: 1px 6px 1px 0px;
-    text-align: center;
-    width: 80px;
-}
-
-.redmine-issue .progress-bar .closed {
-    background-color: rgb(70, 210, 120);
-    background-image: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, rgba(255, 255, 255, .2)), color-stop(.25, transparent), color-stop(.5, transparent), color-stop(.5, rgba(255, 255, 255, .2)), color-stop(.75, rgba(255, 255, 255, .2)), color-stop(.75, transparent), to(transparent));
-    border-radius: 50% 0 0 50%;
-}
-
-.redmine-issue .done-ratio td {
-    height: 1em;
-}
-
-.redmine-issue .progress-info {
-    clear: left;
+.redmine-issue__progress {
+  float: left;
+  height: 1em;
+  margin: 1px 8px 1px 0;
+  width: 80px;
 }

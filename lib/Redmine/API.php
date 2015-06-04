@@ -59,20 +59,20 @@ class API {
         $this->plugin   = $plugin;
         $this->api_key  = $plugin->get_option( 'api_key' );
         $this->root_url = \trailingslashit( $plugin->get_option( 'root_url' ) );
+        $this->url      = new URL( $plugin );
     }
 
     /**
-     * Add credentials to a set of request options.
-     * @param array $options Request options.
+     * Fetch an issue.
+     * @param  string $id      Issue ID.
+     * @param  array  $options Request options.
+     * @param  array  $expires Cache TTL, in seconds (defaults to 3600).
+     * @return mixed           Response data.
      */
-    private function add_credentials( $options = array() ) {
-        if ( ! isset( $options['headers'] ) ) {
-            $options['headers'] = array();
-        }
+    public function get_issue( $id, $options = array(), $expires = 3600  ) {
+        $url = $this->url->get_json_resource_url( 'issues', $id );
 
-        $options['headers']['X-Redmine-API-Key'] = $this->api_key;
-
-        return $options;
+        return json_decode( $this->get( $url, $options, $expires ) );
     }
 
     /**
@@ -80,7 +80,7 @@ class API {
      * @param  string $resource Resource to fetch
      * @param  array  $options  Request options.
      * @param  array  $expires  Cache TTL, in seconds (defaults to 3600).
-     * @return array            Response data.
+     * @return mixed            Response data.
      */
     public function get( $url, $options = array(), $expires = 3600 ) {
         $options = $this->add_credentials( $options );
@@ -109,17 +109,17 @@ class API {
     }
 
     /**
-     * Extract resource path from a URL.  URL must begin with `$root_url`. 
-     * @param  string $url    Redmine URL.
-     * @param  string $format Expected response format, 'json' (the default) or 'xml'.
-     * @return string         Resource matching the provided URL.
+     * Add credentials to a set of request options.
+     * @param array $options Request options.
      */
-    public function get_resource_url( $url, $format = 'json' ) {
-        if ( substr_compare( $url, $this->root_url, 0, strlen( $this->root_url ) ) !== 0 ) {
-            return;
+    private function add_credentials( $options = array() ) {
+        if ( ! isset( $options['headers'] ) ) {
+            $options['headers'] = array();
         }
 
-        return trim( $url, '/' ) . '.' . $format;
+        $options['headers']['X-Redmine-API-Key'] = $this->api_key;
+
+        return $options;
     }
 
 }

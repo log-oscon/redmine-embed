@@ -75,8 +75,12 @@ class Frontend {
 	 * Initialize dependencies.
 	 */
 	private function initialize() {
-		if ( ! isset( $this->redmine ) ) {
-			$this->redmine = new Redmine\API( $this->plugin );			
+		if ( ! isset( $this->api ) ) {
+			$this->api = new Redmine\API( $this->plugin );			
+		}
+
+		if ( ! isset( $this->url ) ) {
+			$this->url = new Redmine\URL( $this->plugin );			
 		}
 
 		if ( ! isset( $this->markup ) ) {
@@ -148,13 +152,13 @@ class Frontend {
 	 * Register URL embed handler.
 	 */
 	public function register_embed_handler () {
-		$root_url = \trailingslashit( $this->plugin->get_option( 'root_url', false ) );
+		$root_url = preg_quote( \trailingslashit( $this->plugin->get_option( 'root_url', false ) ) );
 
 		if ( empty( $root_url ) ) {
-			return false;
+			return;
 		}
 
-		\wp_embed_register_handler( 'redmine', '#' . preg_quote( $root_url ) . '.*#i', array( $this, 'embed_handler' ), true );
+		\wp_embed_register_handler( 'redmine', '#^' . $root_url . 'issues/(?<id>\d+)#i', array( $this, 'embed_issue' ), true );
 	}
 
 	/**
@@ -166,26 +170,44 @@ class Frontend {
 	 * @param  [type] $rawattr [description]
 	 * @return [type]          [description]
 	 */
-	public function embed_handler ( $matches, $attr, $url, $rawattr ) {
+	public function embed_issue ( $matches, $attr, $url, $rawattr ) {
 		$this->initialize();
 
-		$resource = $this->redmine->get_resource_url( $url, 'json' );
-		$response = $this->redmine->get( $resource, array(), 3600 );
-		$data     = json_decode( $response );
+		$issue_id = (int) $matches['id'];
 
-		$data->options = (object) array(
+		$response = $this->api->get_issue( $issue_id, array(), 3600 );
+
+		if ( empty( $response ) ) {
+			include $this->get_template( 'issue-error' );
+			return; 
+		}
+
+		$response->options = (object) array(
 			'base_url' => \trailingslashit( $this->plugin->get_option( 'root_url' ) ),
 		);
 
-		$data->issue->rendered = (object) array(
-			'description' => $this->markup->textileRestricted( $data->issue->description ),
-			'created_on'  => $this->get_formatted_date( strtotime( $data->issue->created_on ) ),
-			'updated_on'  => $this->get_formatted_date( strtotime( $data->issue->updated_on ) ),
+		$response->issue->rendered = (object) array(
+			'description' => $this->markup->textileRestricted( $response->issue->description ),
+			'created_on'  => $this->get_formatted_date( strtotime( $response->issue->created_on ) ),
+			'updated_on'  => $this->get_formatted_date( strtotime( $response->issue->updated_on ) ),
 		);
 
-		$data->issue->pending_ratio = (int) 100 - $data->issue->done_ratio;
+		$response->issue->pending_ratio = (int) 100 - $response->issue->done_ratio;
+		
+$response->issue->done_ratio = 30;
+$response->issue->pending_ratio = 70;
 
-		echo $this->template->render( 'issue', $data );
+		echo $this->template->render( 'issue', $response );
+	}
+
+	/**
+	 * Get template file path.
+	 * 
+	 * @param  string $template Template file (without the extension) to include.
+	 * @return string           Absolute path to the requested template file.
+	 */
+	private function get_template( $template ) {
+		return sprintf( '%s/templates/%s.php', dirname( __DIR__ ), $template );
 	}
 
 	/**
