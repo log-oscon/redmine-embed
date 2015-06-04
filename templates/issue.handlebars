@@ -1,12 +1,12 @@
 <div class="redmine-issue redmine-issue--tracker-{{issue.tracker.id}} redmine-issue--status-{{issue.status.id}} redmine-issue--priority-{{issue.priority.id}}">
-    <h2><a href="{{options.base_url}}issues/{{issue.id}}">Task #{{issue.id}}</a></h2>
+    <h2><a href="{{issue.link}}">Task #{{issue.id}}</a></h2>
 
     <div class="redmine-issue__subject">
-        <div><h3>{{issue.subject}}</h3></div>
+        <h3>{{issue.subject}}</h3>
     </div>
 
     <p class="redmine-issue__author">
-        Added by <a class="redmine-issue__link--user" href="{{options.base_url}}users/{{issue.author.id}}">{{issue.author.name}}</a>
+        Added by <a class="redmine-issue__link--user" href="{{issue.author.link}}">{{issue.author.name}}</a>
             on {{issue.rendered.created_on}}.
         Updated on {{issue.rendered.updated_on}}.
     </p>
@@ -27,7 +27,7 @@
         <tr>
             <th class="redmine-issue__label redmine-issue__label--assigned-to">Assignee:</th>
             <td class="redmine-issue__value redmine-issue__value--assigned-to">
-                <a class="redmine-issue__link--user" href="{{options.base_url}}users/{{issue.assigned_to.id}}">{{issue.assigned_to.name}}</a></td>
+                <a class="redmine-issue__link--user" href="{{issue.assigned_to.link}}">{{issue.assigned_to.name}}</a></td>
             <th class="redmine-issue__label redmine-issue__label--done-ratio">% Done:</th>
             <td class="redmine-issue__value redmine-issue__value--done-ratio">
                 <progress class="redmine-issue__progress redmine-issue__progress--{{issue.done_ratio}}" value="{{issue.done_ratio}}" max="100"></progress>
@@ -39,13 +39,13 @@
             <td class="redmine-issue__value redmine-issue__value--category">{{issue.category.name}}</td>
             <th class="redmine-issue__label redmine-issue__label--spent-time">Spent time:</th>
             <td class="redmine-issue__value redmine-issue__value--spent-time">
-                <a href="{{options.base_url}}issues/107419/time_entries">{{issue.spent_hours}} hour</a>
+                <a href="{{issue.spent_hours_link}}">{{issue.spent_hours}} hour</a>
             </td>
         </tr>
         <tr>
             <th class="redmine-issue__label redmine-issue__label--fixed-version">Target version:</th>
             <td class="redmine-issue__value redmine-issue__value--fixed-version">
-                <a href="{{options.base_url}}versions/{{issue.fixed_version.id}}">{{issue.fixed_version.name}}</a>
+                <a href="{{issue.fixed_version.link}}">{{issue.fixed_version.name}}</a>
             </td>
             <th></th>
             <td></td>

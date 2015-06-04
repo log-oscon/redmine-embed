@@ -113,7 +113,7 @@ class Frontend {
 		 */
 
 		\wp_enqueue_style(
-			$this->plugin->get_plugin_name(),
+			$this->plugin->get_name(),
 			\plugin_dir_url( dirname( __FILE__ ) ) . 'dist/styles/redmine-embed.css',
 			array(),
 			$this->plugin->get_version(),
@@ -122,36 +122,9 @@ class Frontend {
 	}
 
 	/**
-	 * Register the stylesheets for the public-facing side of the site.
-	 *
-	 * @since    1.0.0
-	 */
-	public function enqueue_scripts() {
-
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Loader as all of the hooks are defined in that particular
-		 * class.
-		 *
-		 * The Loader will then create the relationship between the defined
-		 * hooks and the functions defined in this class.
-		 */
-
-		\wp_enqueue_script(
-			$this->plugin->get_plugin_name(),
-			\plugin_dir_url( dirname( __FILE__ ) ) . 'dist/scripts/redmine-embed.js',
-			array( 'jquery' ),
-			$this->plugin->get_version(),
-			false );
-
-	}
-
-	/**
 	 * Register URL embed handler.
 	 */
-	public function register_embed_handler () {
+	public function register_embed_handlers () {
 		$root_url = preg_quote( \trailingslashit( $this->plugin->get_option( 'root_url', false ) ) );
 
 		if ( empty( $root_url ) ) {
@@ -175,29 +148,41 @@ class Frontend {
 
 		$issue_id = (int) $matches['id'];
 
-		$response = $this->api->get_issue( $issue_id, array(), 3600 );
+		$data = $this->api->get_issue( $issue_id, array(), 3600 );
 
-		if ( empty( $response ) ) {
-			include $this->get_template( 'issue-error' );
+		if ( empty( $data ) ) {
+			echo $this->template->render( 'issue-error', sprintf(
+				__( 'Unable to display issue <a href="%s">#%d</a>.', 'redmine-embed' ),
+		        \esc_url_raw( $this->url->get_public_url( 'issues', $issue_id ) ),
+		        $issue_id
+		    ) );
 			return; 
 		}
 
-		$response->options = (object) array(
-			'base_url' => \trailingslashit( $this->plugin->get_option( 'root_url' ) ),
+		$data = $this->render_issue_fields( $data );
+
+		echo $this->template->render( 'issue', $data );
+	}
+
+	/**
+	 * Add rendered fields to the data object.
+	 * @param  object $data Issue data.
+	 * @return object       Issue data with added fields.
+	 */
+	private function render_issue_fields( $data ) {
+		$data->issue->rendered = (object) array(
+			'description' => $this->markup->textileRestricted( $data->issue->description ),
+			'created_on'  => $this->get_formatted_date( strtotime( $data->issue->created_on ) ),
+			'updated_on'  => $this->get_formatted_date( strtotime( $data->issue->updated_on ) ),
 		);
 
-		$response->issue->rendered = (object) array(
-			'description' => $this->markup->textileRestricted( $response->issue->description ),
-			'created_on'  => $this->get_formatted_date( strtotime( $response->issue->created_on ) ),
-			'updated_on'  => $this->get_formatted_date( strtotime( $response->issue->updated_on ) ),
-		);
+		$data->issue->link                = $this->url->get_public_url( 'issues', $data->issue->id );
+		$data->issue->spent_hours_link    = $this->url->get_public_url( 'issues', $data->issue->id, '/time_entries' );
+		$data->issue->assigned_to->link   = $this->url->get_public_url( 'users', $data->issue->assigned_to->id );
+		$data->issue->author->link        = $this->url->get_public_url( 'users', $data->issue->author->id );
+		$data->issue->fixed_version->link = $this->url->get_public_url( 'versions', $data->issue->fixed_version->id );
 
-		$response->issue->pending_ratio = (int) 100 - $response->issue->done_ratio;
-		
-$response->issue->done_ratio = 30;
-$response->issue->pending_ratio = 70;
-
-		echo $this->template->render( 'issue', $response );
+		return $data;
 	}
 
 	/**

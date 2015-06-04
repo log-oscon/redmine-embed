@@ -46,9 +46,9 @@ class Plugin {
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @var      string    $pluginname    The string used to uniquely identify this plugin.
+	 * @var      string    $name    The string used to uniquely identify this plugin.
 	 */
-	private $pluginname = 'redmine-embed';
+	private $name = 'redmine-embed';
 
 	/**
 	 * The current version of the plugin.
@@ -92,7 +92,7 @@ class Plugin {
 	private function set_locale() {
 
 		$plugin_i18n = new I18n();
-		$plugin_i18n->set_domain( $this->get_plugin_name() );
+		$plugin_i18n->set_domain( $this->get_name() );
 		$plugin_i18n->load_plugin_textdomain();
 
 	}
@@ -105,11 +105,10 @@ class Plugin {
 	 * @access   private
 	 */
 	private function define_admin_hooks() {
-
 		$admin = new Admin( $this );
 
-		$this->loader->add_action( 'admin_enqueue_scripts', $admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $admin, 'enqueue_scripts' );
+		$this->loader->add_action( 'admin_menu', $admin, 'admin_menu' );
+		$this->loader->add_action( 'admin_init', $admin, 'add_settings' );
 	}
 
 	/**
@@ -120,13 +119,10 @@ class Plugin {
 	 * @access   private
 	 */
 	private function define_frontend_hooks() {
-
 		$frontend = new Frontend( $this );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $frontend, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $frontend, 'enqueue_scripts' );
-
-		$this->loader->add_action( 'init', $frontend, 'register_embed_handler' );
+		$this->loader->add_action( 'init', $frontend, 'register_embed_handlers' );
 	}
 
 	/**
@@ -151,8 +147,8 @@ class Plugin {
 	 * @since     1.0.0
 	 * @return    string    The name of the plugin.
 	 */
-	public function get_plugin_name() {
-		return $this->pluginname;
+	public function get_name() {
+		return $this->name;
 	}
 
 	/**
@@ -178,12 +174,16 @@ class Plugin {
 	/**
 	 * Get a plugin option by name.
 	 * 
-	 * @param  string $name  Option name.
+	 * @param  string $name    Option name.
 	 * @param  mixed  $default Option default if not set.
 	 * @return mixed           Option value.
 	 */
-	public function get_option( $name, $default = null ) {
-		$options = \get_option( $this->pluginname, array() );
+	public function get_option( $name = null, $default = null ) {
+		$options = \get_option( $this->get_name(), array() );
+
+		if ( $name === null ) {
+			return $options;
+		}
 
 		return isset( $options[ $name ] ) ? $options[ $name ] : $default;
 	}
@@ -195,9 +195,9 @@ class Plugin {
 	 * @param mixed  $value  Option value.
 	 */
 	public function set_option( $name, $value ) {
-		$options = \get_option( $this->pluginname, array() );
+		$options = \get_option( $this->get_name(), array() );
 		$options[ $name ] = $value;
-		$result = \update_option( $this->pluginname, $options, true );
+		$result = \update_option( $this->get_name(), $options, true );
 	}
 
 }
