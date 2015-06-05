@@ -60,13 +60,11 @@ class Plugin {
 	private $version = '1.0.0';
 
 	/**
-	 * Plugin options.
-	 *
-	 * @since  1.0.0
-	 * @access private
-	 * @var    array
+	 * Option key for the plugin.
+	 * 
+	 * @var string
 	 */
-	private $options = array();
+	private $option_key = 'redmine-embed';
 
 	/**
 	 * Define the core functionality of the plugin.
@@ -105,10 +103,13 @@ class Plugin {
 	 * @access   private
 	 */
 	private function define_admin_hooks() {
-		$admin = new Admin( $this );
+		$settings      = new Admin\Settings( $this );
+		$user_settings = new Admin\User_Settings( $this );
 
-		$this->loader->add_action( 'admin_menu', $admin, 'admin_menu' );
-		$this->loader->add_action( 'admin_init', $admin, 'add_settings' );
+		$this->loader->add_action( 'admin_menu', $settings, 'menu' );
+		$this->loader->add_action( 'admin_init', $settings, 'add' );
+
+		// TODO: User settings hooks.
 	}
 
 	/**
@@ -172,6 +173,16 @@ class Plugin {
 	}
 
 	/**
+	 * The name of the option key used to uniquely identify it in the database.
+	 *
+	 * @since     1.0.0
+	 * @return    string    The option key name.
+	 */
+	public function get_option_key() {
+		return $this->option_key;
+	}
+
+	/**
 	 * Get a plugin option by name.
 	 * 
 	 * @param  string $name    Option name.
@@ -179,7 +190,7 @@ class Plugin {
 	 * @return mixed           Option value.
 	 */
 	public function get_option( $name = null, $default = null ) {
-		$options = \get_option( $this->get_name(), array() );
+		$options = \get_option( $this->get_option_key(), array() );
 
 		if ( $name === null ) {
 			return $options;
@@ -195,9 +206,9 @@ class Plugin {
 	 * @param mixed  $value  Option value.
 	 */
 	public function set_option( $name, $value ) {
-		$options = \get_option( $this->get_name(), array() );
+		$options = \get_option( $this->get_option_key(), array() );
 		$options[ $name ] = $value;
-		$result = \update_option( $this->get_name(), $options, true );
+		$result = \update_option( $this->get_option_key(), $options, true );
 	}
 
 }

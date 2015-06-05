@@ -22,9 +22,9 @@ use logoscon\WP\RedmineEmbed\Plugin;
  *
  * @package    PluginName
  * @subpackage PluginName/admin
- * @author     Your Name <email@example.com>
+ * @author     Your Name <engenharia@log.pt>
  */
-class URL {
+class URL_Builder {
 
     /**
      * The plugin's instance.

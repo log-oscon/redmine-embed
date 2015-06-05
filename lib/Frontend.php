@@ -76,11 +76,11 @@ class Frontend {
 	 */
 	private function initialize() {
 		if ( ! isset( $this->api ) ) {
-			$this->api = new Redmine\API( $this->plugin );			
+			$this->api = new Redmine\Client( $this->plugin );			
 		}
 
 		if ( ! isset( $this->url ) ) {
-			$this->url = new Redmine\URL( $this->plugin );			
+			$this->url = new Redmine\URL_Builder( $this->plugin );			
 		}
 
 		if ( ! isset( $this->markup ) ) {
@@ -148,20 +148,31 @@ class Frontend {
 
 		$issue_id = (int) $matches['id'];
 
-		$data = $this->api->get_issue( $issue_id, array(), 3600 );
+		try {
+			$data = $this->api->get_issue( $issue_id, array(), false );
 
-		if ( empty( $data ) ) {
-			echo $this->template->render( 'issue-error', sprintf(
-				__( 'Unable to display issue <a href="%s">#%d</a>.', 'redmine-embed' ),
+		} catch ( \Exception $e ) {
+			$this->embed_error( sprintf(
+				__( 'Unable to display issue <a href="%s">#%d</a>: %s.', 'redmine-embed' ),
 		        \esc_url_raw( $this->url->get_public_url( 'issues', $issue_id ) ),
-		        $issue_id
+		        $issue_id,
+		        $e->getMessage()
 		    ) );
-			return; 
+			return;
 		}
 
 		$data = $this->render_issue_fields( $data );
 
 		echo $this->template->render( 'issue', $data );
+	}
+
+	/**
+	 * Embed error message.
+	 * 
+	 * @param string $message Error message.
+	 */
+	private function embed_error( $message ) {
+		echo $this->template->render( 'issue-error', $message );
 	}
 
 	/**

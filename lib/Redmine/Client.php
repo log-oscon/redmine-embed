@@ -24,7 +24,7 @@ use logoscon\WP\RedmineEmbed\Plugin;
  * @subpackage PluginName/admin
  * @author     Your Name <email@example.com>
  */
-class API {
+class Client {
 
     /**
      * The plugin's instance.
@@ -59,7 +59,7 @@ class API {
         $this->plugin   = $plugin;
         $this->api_key  = $plugin->get_option( 'api_key' );
         $this->root_url = \trailingslashit( $plugin->get_option( 'root_url' ) );
-        $this->url      = new URL( $plugin );
+        $this->url      = new URL_Builder( $plugin );
     }
 
     /**
@@ -105,7 +105,16 @@ class API {
      * @return string           Request body.
      */
     public function get_body( $url, $options ) {
-        return \wp_remote_retrieve_body( \wp_remote_get( $url, $options ) );
+        $response = \wp_remote_get( $url, $options );
+        $code     = \wp_remote_retrieve_response_code( $response );
+        $message  = \wp_remote_retrieve_response_message( $response );
+
+        if ( substr( $code, 0, 1 ) !== '2' ) {
+            // A non-2xx class status code means there was an error.
+            throw new \Exception( $message, (int) $code );
+        }
+
+        return \wp_remote_retrieve_body( $response );
     }
 
     /**
