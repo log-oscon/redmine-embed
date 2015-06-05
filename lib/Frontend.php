@@ -135,15 +135,14 @@ class Frontend {
 	}
 
 	/**
-	 * Handle Redmine URLs in content.
+	 * Outputs Redmine issue details.
 	 * 
-	 * @param  [type] $matches [description]
-	 * @param  [type] $attr    [description]
-	 * @param  [type] $url     [description]
-	 * @param  [type] $rawattr [description]
-	 * @return [type]          [description]
+	 * @param  array  $matches [description]
+	 * @param  array  $attr    [description]
+	 * @param  string $url     [description]
+	 * @param  array  $rawattr [description]
 	 */
-	public function embed_issue ( $matches, $attr, $url, $rawattr ) {
+	public function embed_issue( $matches, $attr, $url, $rawattr ) {
 		$this->initialize();
 
 		$issue_id = (int) $matches['id'];
@@ -152,7 +151,7 @@ class Frontend {
 			$data = $this->api->get_issue( $issue_id, array(), false );
 
 		} catch ( \Exception $e ) {
-			$this->embed_error( sprintf(
+			$this->embed_error( 'issue-error', sprintf(
 				__( 'Unable to display issue <a href="%s">#%d</a>: %s.', 'redmine-embed' ),
 		        \esc_url_raw( $this->url->get_public_url( 'issues', $issue_id ) ),
 		        $issue_id,
@@ -171,8 +170,8 @@ class Frontend {
 	 * 
 	 * @param string $message Error message.
 	 */
-	private function embed_error( $message ) {
-		echo $this->template->render( 'issue-error', $message );
+	private function embed_error( $type, $message ) {
+		echo $this->template->render( $type, $message );
 	}
 
 	/**
