@@ -78,7 +78,7 @@ class UserSettings {
                     <br>
     				<span class="description"><?php
                         printf(
-                            \__( 'Enter your API key for the Redmine install at %s.', 'redmine-embed' ),
+                            \__( 'Enter your API key for the Redmine install at %s. It may be found on the right-hand pane of your account page.', 'redmine-embed' ),
                             \esc_url( $url )
                         );
                     ?></span>
