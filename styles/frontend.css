@@ -1,16 +1,18 @@
+.redmine-error,
+.redmine-issue {
+  color: #333;
+  margin: 2rem 0;
+  padding: 1rem;
+}
+
 .redmine-error {
   background: #f2dede;
   border: 1px solid red;
-  margin: 2rem 0;
-  padding: 1rem;
 }
 
 .redmine-issue {
   background: #fcf8e3;
   border: 1px solid #c9c5b0;
-  color: #333;
-  margin: 2rem 0;
-  padding: 1rem;
 }
 
 .redmine-issue__attribute {
