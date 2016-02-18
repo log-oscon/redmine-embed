@@ -22,7 +22,7 @@ use logoscon\WP\RedmineEmbed\Plugin;
  *
  * @package    RedmineEmbed
  * @subpackage RedmineEmbed/Admin
- * @author     Your Name <email@example.com>
+ * @author     log.OSCON, Lda. <engenharia@log.pt>
  */
 class User_Settings {
 
