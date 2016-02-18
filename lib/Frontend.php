@@ -80,7 +80,7 @@ class Frontend {
 		}
 
 		if ( ! isset( $this->url ) ) {
-			$this->url = new Redmine\UrlBuilder( $this->plugin );			
+			$this->url = new Redmine\UrlBuilder( $this->plugin );
 		}
 
 		if ( ! isset( $this->markup ) ) {
@@ -151,12 +151,25 @@ class Frontend {
 			$data = $this->api->get_issue( $issue_id, array(), false );
 
 		} catch ( \Exception $e ) {
-			$this->embed_error( 'issue-error', sprintf(
-				__( 'Unable to display issue <a href="%s">#%d</a>: %s.', 'redmine-embed' ),
-		        \esc_url_raw( $this->url->get_public_url( 'issues', $issue_id ) ),
+			$is_unauthorized = $e->getCode() === 401 || $e->getCode() === 403;
+			$error           = array();
+
+			$error[] = sprintf(
+				\__( 'Unable to display issue <a href="%s">#%d</a>: %s.', 'redmine-embed' ),
+		        \esc_url( $this->url->get_public_url( 'issues', $issue_id ) ),
 		        $issue_id,
-		        $e->getMessage()
-		    ) );
+		        \esc_html( $e->getMessage() )
+		    );
+
+			if ( \is_user_logged_in() && $is_unauthorized ) {
+				$error[] = sprintf(
+					\__( 'Please review <a href="%s" title="%s">your API key settings</a>.', 'redmine-embed' ),
+					\esc_url( \get_edit_user_link() ),
+					\esc_attr__( 'Edit your profile', 'redmine-embed' )
+				);
+			}
+
+			$this->embed_error( 'issue-error', implode( ' ', $error ) );
 			return;
 		}
 
