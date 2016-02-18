@@ -3,7 +3,7 @@
 /**
  * The dashboard-specific functionality of the plugin.
  *
- * @link       http://example.com
+ * @link       https://log.pt
  * @since      1.0.0
  *
  * @package    RedmineEmbed
