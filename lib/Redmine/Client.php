@@ -140,7 +140,7 @@ class Client {
      */
     private function get_api_key() {
         $user_id = \get_current_user_id();
-        $api_key = \get_user_meta( $user_id, 'redmine_embed_api_key', true );
+        $api_key = \get_user_option( $user_id, 'redmine_embed_api_key', true );
 
         if ( empty( $api_key ) ) {
             $api_key = $this->plugin->get_option( 'api_key' );
