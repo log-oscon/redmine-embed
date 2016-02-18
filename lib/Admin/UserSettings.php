@@ -65,19 +65,22 @@ class UserSettings {
         $api_key = \get_user_option( 'redmine_embed_api_key', $user->ID );
 
         ?>
-    	<h3><?php _e( 'Redmine', 'redmine-embed' ); ?></h3>
+    	<h3><?php \_e( 'Redmine', 'redmine-embed' ); ?></h3>
     	<table class="form-table">
     		<tr>
     			<th><label for="redmine_embed_api_key"><?php
-                    _e( 'API Key', 'redmine-embed' );
+                    \_e( 'API Key', 'redmine-embed' );
                 ?></label></th>
     			<td>
     				<input type="text" name="redmine_embed_api_key"
                         id="redmine_embed_api_key" class="regular-text"
-                        value="<?php echo esc_attr( $api_key ); ?>">
-                    <br />
+                        value="<?php echo \esc_attr( $api_key ); ?>">
+                    <br>
     				<span class="description"><?php
-                        printf( __( 'Please enter your API key for the Redmine install at %s.', 'redmine-embed' ), $url );
+                        printf(
+                            \__( 'Enter your API key for the Redmine install at %s.', 'redmine-embed' ),
+                            \esc_url( $url )
+                        );
                     ?></span>
     			</td>
     		</tr>
