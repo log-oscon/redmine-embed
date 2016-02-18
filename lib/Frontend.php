@@ -152,9 +152,9 @@ class Frontend {
 
 		} catch ( \Exception $e ) {
 			$is_unauthorized = $e->getCode() === 401 || $e->getCode() === 403;
-			$messages        = array();
+			$error           = array();
 
-			$messages[] = sprintf(
+			$error[] = sprintf(
 				\__( 'Unable to display issue <a href="%s">#%d</a>: %s.', 'redmine-embed' ),
 		        \esc_url( $this->url->get_public_url( 'issues', $issue_id ) ),
 		        $issue_id,
@@ -162,16 +162,14 @@ class Frontend {
 		    );
 
 			if ( \is_user_logged_in() && $is_unauthorized ) {
-				$profile_url = \get_edit_user_link();
-
-				$messages[] = sprintf(
+				$error[] = sprintf(
 					\__( 'Please review <a href="%s" title="%s">your API key settings</a>.', 'redmine-embed' ),
-					\esc_url( $profile_url ),
+					\esc_url( \get_edit_user_link() ),
 					\esc_attr__( 'Edit your profile', 'redmine-embed' )
 				);
 			}
 
-			$this->embed_error( 'issue-error', implode( ' ', $messages ) );
+			$this->embed_error( 'issue-error', implode( ' ', $error ) );
 			return;
 		}
 
