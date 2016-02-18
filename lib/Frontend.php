@@ -169,13 +169,12 @@ class Frontend {
 				);
 			}
 
-			$this->embed_error( 'issue-error', implode( ' ', $error ) );
-			return;
+			return $this->embed_error( 'issue-error', implode( ' ', $error ) );
 		}
 
 		$data = $this->render_issue_fields( $data );
 
-		echo $this->template->render( 'issue', $data );
+		return $this->template->render( 'issue', $data );
 	}
 
 	/**
