@@ -57,7 +57,7 @@ class Client {
      */
     public function __construct( Plugin $plugin ) {
         $this->plugin   = $plugin;
-        $this->api_key  = $plugin->get_option( 'api_key' );
+        $this->api_key  = $this->get_api_key();
         $this->root_url = \trailingslashit( $plugin->get_option( 'root_url' ) );
         $this->url      = new UrlBuilder( $plugin );
     }
@@ -129,6 +129,24 @@ class Client {
         $options['headers']['X-Redmine-API-Key'] = $this->api_key;
 
         return $options;
+    }
+
+    /**
+     * Get the configured Redmine API key.
+     *
+     * Looks for the user key first and falls back to the globally configured one.
+     *
+     * @return string Configured Redmine API key.
+     */
+    private function get_api_key() {
+        $user_id = \get_current_user_id();
+        $api_key = \get_user_option( 'redmine_embed_api_key', $user_id );
+
+        if ( empty( $api_key ) ) {
+            $api_key = $this->plugin->get_option( 'api_key' );
+        }
+
+        return \sanitize_key( $api_key );
     }
 
 }

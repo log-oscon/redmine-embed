@@ -61,7 +61,7 @@ class Plugin {
 
 	/**
 	 * Option key for the plugin.
-	 * 
+	 *
 	 * @var string
 	 */
 	private $option_key = 'redmine-embed';
@@ -104,12 +104,15 @@ class Plugin {
 	 */
 	private function define_admin_hooks() {
 		$settings      = new Admin\Settings( $this );
-		$user_settings = new Admin\User_Settings( $this );
+		$user_settings = new Admin\UserSettings( $this );
 
 		$this->loader->add_action( 'admin_menu', $settings, 'menu' );
 		$this->loader->add_action( 'admin_init', $settings, 'add' );
 
-		// TODO: User settings hooks.
+		$this->loader->add_action( 'show_user_profile', $user_settings, 'show_user_profile' );
+		$this->loader->add_action( 'edit_user_profile', $user_settings, 'edit_user_profile' );
+		$this->loader->add_action( 'personal_options_update', $user_settings, 'edit_user_profile_update' );
+		$this->loader->add_action( 'edit_user_profile_update', $user_settings, 'edit_user_profile_update' );
 	}
 
 	/**
@@ -184,7 +187,7 @@ class Plugin {
 
 	/**
 	 * Get a plugin option by name.
-	 * 
+	 *
 	 * @param  string $name    Option name.
 	 * @param  mixed  $default Option default if not set.
 	 * @return mixed           Option value.
@@ -201,7 +204,7 @@ class Plugin {
 
 	/**
 	 * Set a plugin option.
-	 * 
+	 *
 	 * @param string $name   Option name.
 	 * @param mixed  $value  Option value.
 	 */
