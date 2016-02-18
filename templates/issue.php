@@ -83,7 +83,7 @@ $attributes = \apply_filters( 'redmine_embed_issue_attributes', $attributes, $is
 
     <p class="redmine-issue__author"><?php
 		printf(
-			\__( 'Added by %s on %s. Updated on %s.', 'redmine-embed' ),
+			\__( 'Added by %1$s on %2$s. Updated on %3$s.', 'redmine-embed' ),
 			$this->get_attribute_link( $issue->author ),
 			\esc_html( $issue->rendered->created_on ),
 			\esc_html( $issue->rendered->updated_on )
