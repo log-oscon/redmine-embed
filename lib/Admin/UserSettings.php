@@ -62,7 +62,7 @@ class UserSettings {
             return;
         }
 
-        $api_key = \get_user_option( $user->ID, 'redmine_embed_api_key', true );
+        $api_key = \get_user_option( 'redmine_embed_api_key', $user->ID );
 
         ?>
     	<h3><?php _e( 'Redmine', 'redmine-embed' ); ?></h3>
