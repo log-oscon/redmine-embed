@@ -1,25 +1,16 @@
-# EditorConfig is awesome: http://EditorConfig.org
-
 root = true
 
 [*]
 end_of_line = lf
+indent_style = space
+indent_size = 2
 insert_final_newline = true
 trim_trailing_whitespace = true
 
 [*.php]
-indent_size = 4
 indent_style = tab
-
-[*.{js,json}]
-indent_size = 2
-indent_style = space
-
-[*.css]
-indent_size = 2
-indent_style = space
-
-[*.{md,txt}]
 indent_size = 4
-indent_style = space
+
+[*.{markdown,md,mdown,txt}]
+indent_size = 4
 trim_trailing_whitespace = false

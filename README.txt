@@ -1,11 +1,11 @@
 === Plugin Name ===
-Contributors: goblindegook, log_oscon  
-Tags: redmine, issue tracking, embed, issues, project management  
-Requires at least: 4.2  
-Tested up to: 4.2.2  
-Stable tag: trunk  
-License: GPLv2 or later  
-License URI: http://www.gnu.org/licenses/gpl-2.0.html  
+Contributors: goblindegook, log_oscon
+Tags: redmine, issue tracking, embed, issues, project management
+Requires at least: 4.2
+Tested up to: 4.2.2
+Stable tag: trunk
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Embed Redmine issues in your posts and pages.
 
@@ -16,6 +16,12 @@ Embed Redmine issue data in your posts and pages simply by pasting the issue's w
 You will need to obtain a Redmine REST API key for the plugin.
 
 == Installation ==
+
+= Using Composer =
+
+1. Require the plugin using Composer from your project's root:
+
+`composer require logoscon/redmine-embed`
 
 = Using the WordPress Dashboard =
 
@@ -41,9 +47,16 @@ You will need to obtain a Redmine REST API key for the plugin.
 
 == Frequently Asked Questions ==
 
-= Where can I find my Redmine REST API key? =
+= Where can I look up my Redmine REST API key? =
 
 Find the Redmine REST API on your account page (`http://<my redmine install>/my/account`), on the right-hand pane of the default layout.
+
+== Screenshots ==
+
+1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
+the /assets directory or the directory that contains the stable readme.txt (tags or trunk). Screenshots in the /assets
+directory take precedence. For example, `/assets/screenshot-1.png` would win over `/tags/4.3/screenshot-1.png`
+(or jpg, jpeg, gif).
 
 == Changelog ==
 

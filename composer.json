@@ -9,7 +9,7 @@
         {
           "name": "Luís Rodrigues",
           "email": "hello@goblindegook.net",
-          "homepage": "http://goblindegook.net/"
+          "homepage": "https://goblindegook.com/"
         },
         {
           "name": "log.OSCON, Lda.",
@@ -41,7 +41,8 @@
     "suggest": {
     },
     "require-dev": {
-        "phpunit/phpunit": "*@stable"
+      "phpunit/phpunit": "4.8.23",
+      "symfony/yaml": "~2.1"
     },
     "suggest": {}
 }

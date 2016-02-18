@@ -1,46 +1,7 @@
-# Plugin Name #
-**Contributors:** goblindegook, log_oscon  
-**Tags:** redmine, issue tracking, embed, issues, project management  
-**Requires at least:** 4.2  
-**Tested up to:** 4.2.2  
-**Stable tag:** trunk  
-**License:** GPLv2 or later  
-**License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
+# Redmine Embed
 
-Embed Redmine issues in your posts and pages.
+[![Latest Stable Version](https://poser.pugx.org/logoscon/post-glue/v/stable.svg)](https://packagist.org/packages/logoscon/post-glue) [![Latest Unstable Version](https://poser.pugx.org/logoscon/post-glue/v/unstable.svg)](https://packagist.org/packages/logoscon/post-glue) [![Build Status](https://travis-ci.org/log-oscon/post-glue.svg?branch=master)](https://travis-ci.org/log-oscon/post-glue) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/log-oscon/post-glue/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/log-oscon/post-glue/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/log-oscon/post-glue/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/log-oscon/post-glue/?branch=master)
 
-## Description ##
-
-Embed Redmine issue data in your posts and pages simply by pasting the issue's web page address into the editor field.
+Embed Redmine issues in your posts and pages by pasting the issue's web page address into the editor field.
 
 You will need to obtain a Redmine REST API key for the plugin.
-
-## Installation ##
-
-### Using the WordPress Dashboard ###
-
-1. Navigate to the 'Add New' in the plugins dashboard
-2. Search for 'redmine embed'
-3. Click 'Install Now'
-4. Activate the plugin on the Plugin dashboard
-
-### Uploading in WordPress Dashboard ###
-
-1. Navigate to the 'Add New' in the plugins dashboard
-2. Navigate to the 'Upload' area
-3. Select `redmine-embed.zip` from your computer
-4. Click 'Install Now'
-5. Activate the plugin in the Plugin dashboard
-
-### Using FTP ###
-
-1. Download `redmine-embed.zip`
-2. Extract the `redmine-embed` directory to your computer
-3. Upload the `redmine-embed` directory to the `/wp-content/plugins/` directory
-4. Activate the plugin in the Plugin dashboard
-
-
-## Upgrade Notice ##
-
-### 1.0 ###
-Initial release.
