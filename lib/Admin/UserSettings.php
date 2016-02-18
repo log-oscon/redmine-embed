@@ -90,7 +90,7 @@ class UserSettings {
      * @param int $user_id Edited user ID.
      */
     public function edit_user_profile_update( $user_id ) {
-        if ( ! \current_user_can( 'edit_user', $user->ID ) ) {
+        if ( ! \current_user_can( 'edit_user', $user_id ) ) {
             return;
         }
 
