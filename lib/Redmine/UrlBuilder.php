@@ -24,7 +24,7 @@ use logoscon\WP\RedmineEmbed\Plugin;
  * @subpackage PluginName/admin
  * @author     Your Name <engenharia@log.pt>
  */
-class URL_Builder {
+class UrlBuilder {
 
     /**
      * The plugin's instance.
@@ -46,7 +46,7 @@ class URL_Builder {
      * Initialize the class and set its properties.
      *
      * @since 1.0.0
-     * 
+     *
      * @param Plugin $plugin This plugin's instance.
      */
     public function __construct( Plugin $plugin ) {

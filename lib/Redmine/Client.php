@@ -52,14 +52,14 @@ class Client {
      * Initialize the class and set its properties.
      *
      * @since 1.0.0
-     * 
+     *
      * @param Plugin $plugin This plugin's instance.
      */
     public function __construct( Plugin $plugin ) {
         $this->plugin   = $plugin;
         $this->api_key  = $plugin->get_option( 'api_key' );
         $this->root_url = \trailingslashit( $plugin->get_option( 'root_url' ) );
-        $this->url      = new URL_Builder( $plugin );
+        $this->url      = new UrlBuilder( $plugin );
     }
 
     /**

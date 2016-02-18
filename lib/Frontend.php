@@ -64,7 +64,7 @@ class Frontend {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since 1.0.0
-	 * 
+	 *
 	 * @param Plugin $plugin This plugin's instance.
 	 */
 	public function __construct( Plugin $plugin ) {
@@ -76,11 +76,11 @@ class Frontend {
 	 */
 	private function initialize() {
 		if ( ! isset( $this->api ) ) {
-			$this->api = new Redmine\Client( $this->plugin );			
+			$this->api = new Redmine\Client( $this->plugin );
 		}
 
 		if ( ! isset( $this->url ) ) {
-			$this->url = new Redmine\URL_Builder( $this->plugin );			
+			$this->url = new Redmine\UrlBuilder( $this->plugin );			
 		}
 
 		if ( ! isset( $this->markup ) ) {
@@ -136,7 +136,7 @@ class Frontend {
 
 	/**
 	 * Outputs Redmine issue details.
-	 * 
+	 *
 	 * @param  array  $matches [description]
 	 * @param  array  $attr    [description]
 	 * @param  string $url     [description]
@@ -167,7 +167,7 @@ class Frontend {
 
 	/**
 	 * Embed error message.
-	 * 
+	 *
 	 * @param string $message Error message.
 	 */
 	private function embed_error( $type, $message ) {
@@ -197,7 +197,7 @@ class Frontend {
 
 	/**
 	 * Get template file path.
-	 * 
+	 *
 	 * @param  string $template Template file (without the extension) to include.
 	 * @return string           Absolute path to the requested template file.
 	 */
