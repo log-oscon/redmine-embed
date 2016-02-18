@@ -92,7 +92,7 @@ class Client {
 
         $cache_key = sha1( $url . $this->api_key );
 
-        return tlc_transient( $cache_key )
+        return \tlc_transient( $cache_key )
             ->updates_with( array( $this, 'get_body' ), array( $url, $options ) )
             ->expires_in( $expires )
             ->get();

@@ -43,15 +43,6 @@ class Frontend {
 	private $api;
 
 	/**
-	 * Template engine.
-	 *
-	 * @since  1.0.0
-	 * @access private
-	 * @var    \Handlebars
-	 */
-	private $template;
-
-	/**
 	 * Textile parser.
 	 *
 	 * @since  1.0.0
@@ -68,7 +59,7 @@ class Frontend {
 	 * @param Plugin $plugin This plugin's instance.
 	 */
 	public function __construct( Plugin $plugin ) {
-		$this->plugin  = $plugin;
+		$this->plugin = $plugin;
 	}
 
 	/**
@@ -85,12 +76,6 @@ class Frontend {
 
 		if ( ! isset( $this->markup ) ) {
 			$this->markup = new \Netcarver\Textile\Parser();
-		}
-
-		if ( ! isset( $this->template ) ) {
-			$this->template = new \Handlebars\Handlebars( array(
-			    'loader'  => new \Handlebars\Loader\FilesystemLoader( dirname( __DIR__ ) . '/templates/' ),
-			) );
 		}
 	}
 
@@ -114,7 +99,7 @@ class Frontend {
 
 		\wp_enqueue_style(
 			$this->plugin->get_name(),
-			\plugin_dir_url( dirname( __FILE__ ) ) . 'dist/styles/redmine-embed.css',
+			\plugin_dir_url( dirname( __FILE__ ) ) . 'styles/frontend.css',
 			array(),
 			$this->plugin->get_version(),
 			'all' );
@@ -169,33 +154,10 @@ class Frontend {
 				);
 			}
 
-			return $this->template->render( 'issue-error', implode( ' ', $error ) );
+			return $this->render_error( implode( ' ', $error ) );
 		}
 
-		$data = $this->render_issue_fields( $data );
-
-		return $this->template->render( 'issue', $data );
-	}
-
-	/**
-	 * Add rendered fields to the data object.
-	 * @param  object $data Issue data.
-	 * @return object       Issue data with added fields.
-	 */
-	private function render_issue_fields( $data ) {
-		$data->issue->rendered = (object) array(
-			'description' => $this->markup->textileRestricted( $data->issue->description ),
-			'created_on'  => $this->get_formatted_date( strtotime( $data->issue->created_on ) ),
-			'updated_on'  => $this->get_formatted_date( strtotime( $data->issue->updated_on ) ),
-		);
-
-		$data->issue->link                = $this->url->get_public_url( 'issues', $data->issue->id );
-		$data->issue->spent_hours_link    = $this->url->get_public_url( 'issues', $data->issue->id, '/time_entries' );
-		$data->issue->assigned_to->link   = $this->url->get_public_url( 'users', $data->issue->assigned_to->id );
-		$data->issue->author->link        = $this->url->get_public_url( 'users', $data->issue->author->id );
-		$data->issue->fixed_version->link = $this->url->get_public_url( 'versions', $data->issue->fixed_version->id );
-
-		return $data;
+		return $this->render_issue( $this->prepare_issue( $data ) );
 	}
 
 	/**
@@ -209,12 +171,83 @@ class Frontend {
 	}
 
 	/**
+	 * Render error message.
+	 *
+	 * @param  string $error Error message.
+	 */
+	private function render_issue( $issue ) {
+		ob_start();
+		require $this->get_template( 'issue' );
+		return ob_get_clean();
+	}
+
+	/**
+	 * Render error message.
+	 *
+	 * @param  string $error Error message.
+	 */
+	private function render_error( $error ) {
+		ob_start();
+		require $this->get_template( 'error' );
+		return ob_get_clean();
+	}
+
+	/**
+	 * Add rendered fields to the data object.
+	 * @param  object $data Issue data.
+	 * @return object       Issue data with added fields.
+	 */
+	private function prepare_issue( $data ) {
+		$data->issue->rendered = (object) array(
+			'description' => $this->markup->textileRestricted( $data->issue->description ),
+			'created_on'  => $this->get_formatted_date( strtotime( $data->issue->created_on ) ),
+			'updated_on'  => $this->get_formatted_date( strtotime( $data->issue->updated_on ) ),
+		);
+
+		$data->issue->link                = $this->url->get_public_url( 'issues', $data->issue->id );
+		$data->issue->spent_hours_link    = $this->url->get_public_url( 'issues', $data->issue->id, '/time_entries' );
+		$data->issue->assigned_to->link   = $this->url->get_public_url( 'users', $data->issue->assigned_to->id );
+		$data->issue->author->link        = $this->url->get_public_url( 'users', $data->issue->author->id );
+		$data->issue->fixed_version->link = $this->url->get_public_url( 'versions', $data->issue->fixed_version->id );
+
+		return $data->issue;
+	}
+
+	/**
 	 * Format date.
 	 * @param  int    $timestamp Timestamp.
 	 * @return string            Formatted date based on the timestamp.
 	 */
 	private function get_formatted_date( $timestamp = 0 ) {
-		return strftime( '%c', $timestamp );
+		$format = sprintf(
+			_x( '%1$s \a\t %2$s', 'date and time format', 'redmine-embed' ),
+			\get_option( 'date_format' ),
+			\get_option( 'time_format' )
+	 	);
+
+		return \date_i18n( $format, $timestamp );
+	}
+
+	/**
+	 * Get object link.
+	 *
+	 * @param  object $attribute Attribute containing name and link properties.
+	 * @return string            Link markup.
+	 */
+	private function get_attribute_link( $attribute ) {
+		if ( empty( $attribute->name ) ) {
+			return '';
+		}
+
+		if ( empty( $attribute->link ) ) {
+			return \esc_html( $attribute->name );
+		}
+
+		return sprintf(
+			'<a href="%s">%s</a>',
+			\esc_url( $attribute->link ),
+			\esc_html( $attribute->name )
+		);
 	}
 
 }

@@ -1,0 +1,66 @@
+.redmine-error {
+  background: #f2dede;
+  border: 1px solid red;
+  margin: 2rem 0;
+  padding: 1rem;
+}
+
+.redmine-issue {
+  background: #fcf8e3;
+  border: 1px solid #c9c5b0;
+  color: #333;
+  margin: 2rem 0;
+  padding: 1rem;
+}
+
+.redmine-issue__attribute {
+  height: 2rem;
+  overflow: hidden;
+  width: 100%;
+}
+
+.redmine-issue__attribute:last-child {
+  margin-bottom: 1rem;
+}
+
+.redmine-issue__label,
+.redmine-issue__value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.redmine-issue__label {
+  font-weight: bold;
+  float: left;
+  padding-right: .5rem;
+  width: 40%;
+}
+
+.redmine-issue__value {
+  float: right;
+  width: 60%;
+}
+
+.redmine-issue__progress {
+  margin: .25rem 1rem 0 0;
+  max-width: 4rem;
+}
+
+.redmine-issue__value--percent {
+  float: none;
+}
+
+.redmine-issue hr {
+  clear: both;
+}
+
+.redmine-issue__description {
+  margin-top: 1rem;
+}
+
+@media (min-width: 768px) {
+  .redmine-issue__attribute {
+    float: left;
+    width: 50%;
+  }
+}
