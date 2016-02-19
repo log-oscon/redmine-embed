@@ -16,6 +16,7 @@
 }
 
 .redmine-issue__attribute {
+  box-sizing: border-box;
   height: 2rem;
   overflow: hidden;
   width: 100%;
@@ -27,6 +28,7 @@
 
 .redmine-issue__label,
 .redmine-issue__value {
+  box-sizing: border-box;
   overflow: hidden;
   text-overflow: ellipsis;
 }
